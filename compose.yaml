@@ -30,6 +30,7 @@ services:
       SESSION_DRIVER: array
       CACHE_STORE: array
       QUEUE_CONNECTION: sync
+      PHP_CLI_SERVER_WORKERS: 4
     volumes:
       - ../test-manager-library-3239137-api/backend:/app
     depends_on:
@@ -38,7 +39,28 @@ services:
     command:
       - sh
       - -c
-      - composer install --no-interaction --no-scripts && php artisan serve --host=0.0.0.0 --port=8000
+      - composer install --no-interaction --no-scripts && php artisan config:clear && php artisan migrate --force && php artisan library:admin && php artisan serve --host=0.0.0.0 --port=8000 --no-reload
+
+  app:
+    image: node:24-alpine
+    working_dir: /app
+    volumes:
+      - ../test-manager-library-3239137-app:/app
+      - app_modules:/app/node_modules
+    environment:
+      API_PROXY_TARGET: http://api:8000
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+    command: sh -c "npm ci --no-audit --no-fund && npm run dev -- --host 0.0.0.0"
+
+  page:
+    build:
+      context: ../test-manager-library-3239137-page
+    ports:
+      - "8080:80"
 
 volumes:
+  app_modules:
   library_data:

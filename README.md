@@ -83,8 +83,11 @@ Resultado comprobado: HTTP 200 y {"status":"ok"}.
 ### Estado actual
 
 API y PostgreSQL funcionan mediante Compose.
-Todavía no se han ejecutado las migraciones del negocio.
-Frontend y sembrador pendientes de integrar.
+Las dos migraciones del negocio están ejecutadas y verificadas.
+Frontend integrado y sembrador ejecutado: 40 libros, 10 socios, 15 préstamos y tres vencidos.
 
 Las tablas, restricciones y categorías se crearán desde las
 migraciones del backend; infra no contiene scripts CREATE TABLE.
+## Entrega integrada
+Ver ARRANQUE.md para preparación, cuatro servicios, pruebas y semilla.
+El arranque actual ejecuta migraciones y provisión desde la aplicación.
