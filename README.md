@@ -48,3 +48,43 @@ No hay prórroga: suban avances parciales con commits pequeños durante la prueb
 | [`test-manager-library-3239137-page`](https://github.com/code-sena/test-manager-library-3239137-page) | Sitio público estático de presentación |
 | [`test-manager-library-3239137-infra`](https://github.com/code-sena/test-manager-library-3239137-infra) | Contenedores, red, volúmenes y motor de base de datos vacío |
 | [`test-manager-library-3239137-tool`](https://github.com/code-sena/test-manager-library-3239137-tool) | Utilidades: sembrador de datos de demostración |
+
+## Entorno local implementado
+
+Se utilizan PHP 8.4, Laravel 12 y PostgreSQL 16.
+
+Los repositorios deben estar en carpetas hermanas.
+El Dockerfile está en el repositorio api, dentro de backend.
+
+### Preparación
+
+- Docker Desktop debe estar funcionando.
+- Copiar .env.example a .env en este repositorio y configurar la contraseña.
+- El backend debe tener su archivo .env local y APP_KEY generada.
+- El puerto 8000 debe estar disponible.
+
+### Arranque
+
+Desde este repositorio:
+
+```bash
+docker compose up -d --build
+docker compose ps
+```
+
+### Verificación
+
+```bash
+curl -i http://localhost:8000/api/v1/health
+```
+
+Resultado comprobado: HTTP 200 y {"status":"ok"}.
+
+### Estado actual
+
+API y PostgreSQL funcionan mediante Compose.
+Todavía no se han ejecutado las migraciones del negocio.
+Frontend y sembrador pendientes de integrar.
+
+Las tablas, restricciones y categorías se crearán desde las
+migraciones del backend; infra no contiene scripts CREATE TABLE.
